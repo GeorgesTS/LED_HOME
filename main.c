@@ -26,49 +26,40 @@ Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, rows, cols );
 
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
- #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+ #include <avr/power.h> 
 #endif
 
-// Which pin on the Arduino is connected to the NeoPixels?
-#define PIN        3 // On Trinket or Gemma, suggest changing this to 1
 
-// How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS 30 // Popular NeoPixel ring size
+#define PIN        3 
 
-// When setting up the NeoPixel library, we tell it how many pixels,
-// and which pin to use to send signals. Note that for older NeoPixel
-// strips you might need to change the third parameter -- see the
-// strandtest example for more information on possible values.
+#define NUMPIXELS 30 
+
+
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-#define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
+#define DELAYVAL 500 
 
 void setup() {
-  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
-  // Any other board, you can remove this part (but no harm leaving it):
+  
 #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
   clock_prescale_set(clock_div_1);
 #endif
-  // END of Trinket-specific code.
+  
 
   pixels.begin(); 
-    Serial.begin(9600);
-// INITIALIZE NeoPixel strip object (REQUIRED)
+  Serial.begin(9600);
+
+
 }
 
 
-  
-
-
 void loop() {
-  // put your main code here, to run repeatedly:char key = keypad.getKey();
-  
-
+ 
 int a,c,b;
   char key = keypad.waitForKey();
   
 
-    // Serial.println(key);
+   
 
 //BLUE
 
@@ -76,12 +67,10 @@ while (key=='1'){
   int x;
   a=20+x;
   key=keypad.waitForKey();
-for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+for(int i=0; i<NUMPIXELS; i++) { 
 
     pixels.setPixelColor(i, pixels.Color(0,0, a));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-
+    pixels.show();   
 }
 
 x=x+10;
@@ -93,12 +82,10 @@ while (key=='2'){
   int x;
   a=30+x;
   key=keypad.waitForKey();
-for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+for(int i=0; i<NUMPIXELS; i++) { 
 
     pixels.setPixelColor(i, pixels.Color(a,0, 0));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-
+    pixels.show();  
 }
 
 x=x+10;
@@ -116,9 +103,7 @@ while (key=='3'){
 for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
 
     pixels.setPixelColor(i, pixels.Color(1,a, 1));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-
+    pixels.show();  
 }
 
 
@@ -128,10 +113,10 @@ x=x+10;
 
 //SHUTDOWN
  if (key=='0'){
-for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+for(int i=0; i<NUMPIXELS; i++) { 
 
    pixels.clear();
-    pixels.show(); 
+   pixels.show(); 
 }
 
 
@@ -150,8 +135,7 @@ while (key=='4'){
 for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
 
     pixels.setPixelColor(i, pixels.Color(a,b, c));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
+    pixels.show();   
 
 }
 
@@ -171,9 +155,7 @@ while (key=='5'){
 for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
 
     pixels.setPixelColor(i, pixels.Color(a,b,c));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
-
+    pixels.show();  
 }
 
 
@@ -189,11 +171,10 @@ while (key=='6'){
   b=80-0.5*x;
   c=10-1;
   key=keypad.waitForKey();
-for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+for(int i=0; i<NUMPIXELS; i++) {
 
     pixels.setPixelColor(i, pixels.Color(a,b, c));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
+    pixels.show();  
 
 }
 
@@ -202,30 +183,85 @@ x=x+10;
     
   }
 
+while (key=='*'){
+  char w,e,r;
+  char s,d,f;
+  char x,c,v;
+  int FR, FG,FB;
 
+  if (keypad.waitForKey()=='S'){
+    break;
+  }
   
- if (key=='*'){
-  a= keypad.waitForKey();
-  b =keypad.waitForKey();
-  c =keypad.waitForKey();
-for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+  char tag;
+  w=keypad.waitForKey();
+  if (w=='S'){
+    break;
+  }
+  e=keypad.waitForKey();
+  if (e=='S'){
+    break;
+  }
+  r=keypad.waitForKey();
+ if (r=='S'){
+    break;
+  }
+  
+  char R[4] = { w, e, r, '\0' };
+  
+  FR=atoi(R);
+  Serial.println(FR);
 
- //a = keypad.getKey();
-  //b = keypad.getKey();
-  //c = keypad.getKey();
+  s=keypad.waitForKey();
+  if (s=='S'){
+    break;
+  }
+  d=keypad.waitForKey();
+  if (d=='S'){
+    break;
+  }
+  f=keypad.waitForKey();
+  if (f=='S'){
+    break;
+  }
+  char G[4] = { s, d, f, '\0' };
+  FG=atoi(G);
+  Serial.println(FG);
+
+
+  x=keypad.waitForKey();
+  if (x=='S'){
+    break;
+  }
+  c=keypad.waitForKey();
+  if (x=='S'){
+    break;
+  }
+  v=keypad.waitForKey();
+  if (v=='S'){
+    break;
+  }
+  char B[4] = { x, c, v, '\0' };
+  FB=atoi(B);
+  Serial.println(FB);
+
+   
   
+  for(int i=0; i<NUMPIXELS; i++) { 
+
+
     
-    pixels.setPixelColor(i, pixels.Color(a+50,b, c));
-
-    pixels.show();   // Send the updated pixel colors to the hardware.
+    pixels.setPixelColor(i, pixels.Color(FR,FG, FB));
+    pixels.show();   
    
 
 
 
 
 }
-x=x-20;
-}
+key=keypad.waitForKey();
 
 
+
+ }
 }
