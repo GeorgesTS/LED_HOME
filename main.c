@@ -189,9 +189,7 @@ while (key=='*'){
   char x,c,v;
   int FR, FG,FB;
 
-  if (keypad.waitForKey()=='S'){
-    break;
-  }
+  
   
   char tag;
   w=keypad.waitForKey();
