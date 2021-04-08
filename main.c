@@ -2,8 +2,10 @@
 // Released under the GPLv3 license to match the rest of the
 // Adafruit NeoPixel library
 #include <Keypad.h>
+#include <Adafruit_NeoPixel.h>
 
 
+Adafruit_NeoPixel strip(30, 3, NEO_GRB + NEO_KHZ800);
 
 const byte rows = 5 ; //four rows
 const byte cols = 4; //three columns
@@ -24,7 +26,6 @@ byte colPins[cols] ={ 12,11,10,9}; //connect to the column pinouts of the keypad
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, rows, cols );
 
 
-#include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
  #include <avr/power.h> 
 #endif
@@ -48,7 +49,7 @@ void setup() {
 
   pixels.begin(); 
   Serial.begin(9600);
-
+strip.setBrightness(30);
 
 }
 
@@ -183,6 +184,34 @@ x=x+10;
     
   }
 
+while (key=='7'){
+  for(int i=15; i<NUMPIXELS; i++) { 
+
+    pixels.setPixelColor(i, pixels.Color(0,0, 255));
+    pixels.show();   
+}
+
+ for(int i=0; i<15; i++) { 
+
+    pixels.setPixelColor(i, pixels.Color(255,0, 0));
+    pixels.show();   
+}
+    key=keypad.waitForKey();
+  }
+
+
+
+  
+while (key=='8'){
+  
+ rainbow(35);
+    key=keypad.waitForKey();
+  }
+
+
+ 
+//RED
+
 while (key=='*'){
   char w,e,r;
   char s,d,f;
@@ -262,4 +291,26 @@ key=keypad.waitForKey();
 
 
  }
+}
+void rainbow(int wait) {
+  // Hue of first pixel runs 5 complete loops through the color wheel.
+  // Color wheel has a range of 65536 but it's OK if we roll over, so
+  // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
+  // means we'll make 5*65536/256 = 1280 passes through this outer loop:
+  for(long firstPixelHue = 0; firstPixelHue < 5*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+      // Offset pixel hue by an amount to make one full revolution of the
+      // color wheel (range of 65536) along the length of the strip
+      // (strip.numPixels() steps):
+      int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
+      // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
+      // optionally add saturation and value (brightness) (each 0 to 255).
+      // Here we're using just the single-argument hue variant. The result
+      // is passed through strip.gamma32() to provide 'truer' colors
+      // before assigning to each pixel:
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+    }
+    strip.show(); // Update strip with new contents
+    delay(wait);  // Pause for a moment
+  }
 }
